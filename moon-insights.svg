@@ -1,58 +1,71 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 1200" role="img" aria-labelledby="svgTitle svgDesc">
-  <title id="svgTitle">月见洞察：高质感母版无人物互动图</title>
-  <desc id="svgDesc">轻触纸上的金色信号点，信号沿金线前行、纸页展开、满月显现，最后月光停在一席茶盏与信笺上。</desc>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 750 1200" role="img" aria-labelledby="title desc">
+  <title id="title">月见洞察｜Signals Under One Moon</title>
+  <desc id="desc">轻触金色节点，红色信号线与金色逻辑线汇聚成月，并让月光抵达一席无人的茶席。</desc>
   <defs>
-    <linearGradient id="wall" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0a0908"/><stop offset=".48" stop-color="#18130f"/><stop offset="1" stop-color="#020304"/></linearGradient>
-    <linearGradient id="night" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#07131c"/><stop offset="1" stop-color="#02070b"/></linearGradient>
-    <linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#24150e"/><stop offset=".42" stop-color="#5b3420"/><stop offset="1" stop-color="#130b08"/></linearGradient>
-    <linearGradient id="paper" x1="0" y1="0" x2=".87" y2="1"><stop stop-color="#e6dac1"/><stop offset=".4" stop-color="#bca57d"/><stop offset=".77" stop-color="#70563a"/><stop offset="1" stop-color="#21170f"/></linearGradient>
-    <radialGradient id="moon" cx="42%" cy="32%"><stop stop-color="#fffbe8"/><stop offset=".5" stop-color="#edd39a"/><stop offset=".82" stop-color="#b88742"/><stop offset="1" stop-color="#463018"/></radialGradient>
-    <radialGradient id="goldGlow"><stop stop-color="#f7cb71" stop-opacity=".94"/><stop offset=".22" stop-color="#e7a73b" stop-opacity=".38"/><stop offset="1" stop-color="#e7a73b" stop-opacity="0"/></radialGradient>
-    <linearGradient id="beam" x1="0" y1="0" x2=".32" y2="1"><stop stop-color="#f8e5ad" stop-opacity=".42"/><stop offset=".58" stop-color="#d7a650" stop-opacity=".12"/><stop offset="1" stop-color="#bd8034" stop-opacity="0"/></linearGradient>
-    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".67" numOctaves="3" seed="17" result="n"/><feColorMatrix in="n" type="saturate" values="0" result="m"/><feComponentTransfer in="m"><feFuncA type="table" tableValues="0 .16"/></feComponentTransfer><feBlend in="SourceGraphic" mode="soft-light"/></filter>
-    <filter id="paperGrain"><feTurbulence type="fractalNoise" baseFrequency=".18 .72" numOctaves="4" seed="31" result="n"/><feColorMatrix in="n" values="1 0 0 0 .35 0 1 0 0 .25 0 0 1 0 .12 0 0 0 .35 0" result="c"/><feBlend in="SourceGraphic" in2="c" mode="multiply"/></filter>
-    <filter id="blur"><feGaussianBlur stdDeviation="18"/></filter>
-    <filter id="shadow" x="-30%" y="-30%" width="170%" height="170%"><feGaussianBlur in="SourceAlpha" stdDeviation="9" result="b"/><feOffset in="b" dy="12" result="o"/><feColorMatrix in="o" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .72 0"/><feBlend in="SourceGraphic"/></filter>
-    <mask id="crescent"><rect width="750" height="1200" fill="white"/><circle cx="602" cy="327" r="101" fill="black"/></mask>
+    <linearGradient id="night" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#071423"/><stop offset=".58" stop-color="#0a1725"/><stop offset="1" stop-color="#15100e"/></linearGradient>
+    <radialGradient id="moon" cx="34%" cy="27%"><stop stop-color="#fff9e8"/><stop offset=".48" stop-color="#ecddbd"/><stop offset=".82" stop-color="#c9aa72"/><stop offset="1" stop-color="#76552e"/></radialGradient>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eee5d2" stop-opacity=".86"/><stop offset="1" stop-color="#b6a183" stop-opacity=".36"/></linearGradient>
+    <linearGradient id="beam" x1=".5" y1="0" x2=".5" y2="1"><stop stop-color="#f7dfa7" stop-opacity=".30"/><stop offset="1" stop-color="#d9a959" stop-opacity="0"/></linearGradient>
+    <radialGradient id="orb"><stop stop-color="#fff0c4"/><stop offset=".18" stop-color="#efc46b"/><stop offset=".62" stop-color="#a56b2c"/><stop offset="1" stop-color="#3b2210"/></radialGradient>
+    <filter id="paperTexture" x="-15%" y="-15%" width="130%" height="130%"><feTurbulence type="fractalNoise" baseFrequency=".18" numOctaves="3" seed="18" result="n"/><feColorMatrix in="n" values="1 0 0 0 .35 0 1 0 0 .28 0 0 1 0 .19 0 0 0 .22 0" result="grain"/><feBlend in="SourceGraphic" in2="grain" mode="multiply"/></filter>
+    <filter id="soft"><feGaussianBlur stdDeviation="13"/></filter>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur in="SourceAlpha" stdDeviation="8"/><feOffset dy="8"/><feComponentTransfer><feFuncA type="table" tableValues="0 .42"/></feComponentTransfer><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <path id="redPath" d="M94 1008 C 175 935, 246 1045, 314 953 S 420 818, 371 737 S 311 616, 388 550"/>
+    <path id="logicPath" d="M389 550 C 450 511, 485 480, 513 436 C 550 378, 616 353, 674 326"/>
   </defs>
-  <!-- 1. shadowy interior, matching the visual master -->
-  <rect width="750" height="1200" fill="url(#wall)"/>
-  <rect width="750" height="1200" fill="#896040" opacity=".10" filter="url(#grain)"/>
-  <path d="M0 910H750V1200H0Z" fill="url(#wood)"/>
-  <g opacity=".26" stroke="#b47b45" stroke-width="1"><path d="M0 1011C184 978 336 1026 750 985"/><path d="M0 1106C186 1074 495 1129 750 1081"/><path d="M0 1171C273 1142 457 1193 750 1142"/></g>
-  <text x="60" y="85" font-family="Arial,Microsoft YaHei,sans-serif" font-size="14" letter-spacing="3.2" fill="#d9c09a">IQVIA · MID-AUTUMN</text>
-  <text x="60" y="154" font-family="Songti SC,STSong,serif" font-size="52" fill="#eee2cb">月见洞察</text>
-  <text x="62" y="191" font-family="Arial,Microsoft YaHei,sans-serif" font-size="12" letter-spacing="2.7" fill="#ae956e">SIGNALS UNDER ONE MOON</text>
-  <!-- black lacquered window; moon starts half-hidden behind a vertical timber -->
-  <rect x="490" y="135" width="218" height="530" rx="2" fill="#020506" stroke="#432d1d" stroke-width="5"/>
-  <rect x="505" y="154" width="183" height="480" fill="url(#night)"/>
-  <circle cx="616" cy="328" r="142" fill="#dfad51" opacity=".18" filter="url(#blur)"/>
-  <g id="moonGroup" mask="url(#crescent)"><circle cx="616" cy="328" r="103" fill="url(#moon)" filter="url(#grain)"/><g fill="#6e4b23" opacity=".23"><ellipse cx="584" cy="292" rx="22" ry="9"/><ellipse cx="644" cy="347" rx="31" ry="13"/><ellipse cx="600" cy="374" rx="15" ry="8"/></g></g>
-  <circle id="fullMoon" cx="616" cy="328" r="103" fill="url(#moon)" opacity="0"><animate attributeName="opacity" begin="signal.click+1.7s" dur=".6s" from="0" to="1" fill="freeze"/><animate attributeName="r" begin="signal.click+1.7s" dur=".9s" from="103" to="121" fill="freeze"/></circle>
-  <g fill="#080706"><rect x="534" y="149" width="14" height="496"/><rect x="620" y="149" width="18" height="496"/><rect x="503" y="354" width="187" height="14"/></g>
-  <g opacity=".56"><path d="M503 638h187" stroke="#c99c58"/><path d="M503 647h187" stroke="#3b210f" stroke-width="7"/></g>
-  <!-- paper ensemble; no people, only the signal waiting to be read -->
-  <g id="papers" filter="url(#shadow)">
-    <path d="M-30 915L411 774 594 1031 84 1139Z" fill="#231811" opacity=".88"/>
-    <path d="M-12 889L449 750 604 1007 62 1112Z" fill="url(#paper)" filter="url(#paperGrain)"/>
-    <path d="M28 905L474 785 573 982 97 1083Z" fill="#efe2c8" opacity=".26"/>
-    <path d="M50 881L471 771" stroke="#f2d486" stroke-width="1" opacity=".44"/>
-    <animateTransform attributeName="transform" type="translate" values="0 0;28 -22" begin="signal.click+.72s" dur=".85s" fill="freeze"/>
+  <rect width="750" height="1200" fill="url(#night)"/>
+  <rect width="750" height="1200" fill="#0e1d2d" opacity=".22" filter="url(#paperTexture)"/>
+  <text x="58" y="74" fill="#cfb98d" font-family="Arial,Microsoft YaHei,sans-serif" font-size="13" letter-spacing="3.1">IQVIA · MID-AUTUMN</text>
+  <text x="58" y="137" fill="#f1e6d1" font-family="Songti SC,STSong,serif" font-size="48">月见洞察</text>
+  <text x="60" y="167" fill="#b9a27b" font-family="Arial,Microsoft YaHei,sans-serif" font-size="12" letter-spacing="2.7">SIGNALS UNDER ONE MOON</text>
+
+  <!-- lacquer moon gate -->
+  <path d="M223 835 V470 C223 245 361 129 520 129 C651 129 704 226 704 350" fill="none" stroke="#050708" stroke-width="25"/>
+  <path d="M223 835 V470 C223 245 361 129 520 129 C651 129 704 226 704 350" fill="none" stroke="#382a20" stroke-width="15"/>
+  <path d="M232 830 V473 C232 254 366 143 519 143 C637 143 687 230 687 348" fill="none" stroke="#8d795f" stroke-width="1.15" opacity=".68"/>
+
+  <!-- layered paper moon: incomplete at rest, aligned on touch -->
+  <g id="moonLayers" transform="translate(0 0)">
+    <circle cx="557" cy="356" r="154" fill="#e5d8c0" opacity=".08"/>
+    <circle cx="533" cy="367" r="143" fill="url(#paper)" opacity=".35"/>
+    <circle cx="556" cy="350" r="143" fill="url(#paper)" opacity=".44"/>
+    <circle cx="581" cy="338" r="143" fill="url(#moon)" opacity=".52"/>
+    <animateTransform attributeName="transform" type="translate" begin="trigger.click+.72s" dur="1.05s" values="0 0;24 -8" fill="freeze"/>
   </g>
-  <!-- signal line revealed by touch -->
-  <path d="M78 1010C168 930 248 921 333 951C408 977 470 937 554 824" fill="none" stroke="#2b1b10" stroke-width="5" opacity=".84"/>
-  <path d="M78 1010C168 930 248 921 333 951C408 977 470 937 554 824" fill="none" stroke="#d8a448" stroke-width="2.2" stroke-linecap="round" stroke-dasharray="650" stroke-dashoffset="650">
-    <animate attributeName="stroke-dashoffset" begin="signal.click" dur="1.2s" values="650;0" fill="freeze"/>
-  </path>
-  <g id="signal" style="cursor:pointer"><circle cx="285" cy="931" r="55" fill="url(#goldGlow)"/><circle cx="285" cy="931" r="17" fill="#5a3513" stroke="#e7b358" stroke-width="1.4"/><circle cx="285" cy="931" r="5.8" fill="#ffe19a"/>
-    <animate attributeName="opacity" values="1;.55;1" dur="2s" repeatCount="indefinite"/>
+  <circle id="fullMoon" cx="581" cy="338" r="143" fill="url(#moon)" opacity="0">
+    <animate attributeName="opacity" begin="trigger.click+1.48s" dur=".55s" values="0;1" fill="freeze"/>
+  </circle>
+  <g fill="#8d704a" opacity=".24"><ellipse cx="535" cy="301" rx="23" ry="8"/><ellipse cx="617" cy="361" rx="32" ry="12"/><ellipse cx="573" cy="401" rx="16" ry="7"/></g>
+
+  <!-- thin orbit and logic system -->
+  <ellipse cx="545" cy="357" rx="191" ry="109" transform="rotate(-25 545 357)" fill="none" stroke="#cba05b" stroke-width="1.2" opacity=".42"/>
+  <ellipse cx="542" cy="354" rx="215" ry="94" transform="rotate(-25 542 354)" fill="none" stroke="#cba05b" stroke-width=".7" opacity=".35" stroke-dasharray="2 6"/>
+  <use href="#logicPath" fill="none" stroke="#d8b06d" stroke-width="1.35" stroke-dasharray="330" stroke-dashoffset="330">
+    <animate attributeName="stroke-dashoffset" begin="trigger.click+.38s" dur="1.15s" values="330;0" fill="freeze"/>
+  </use>
+  <g id="logicNodes" opacity="0" fill="#ebc675"><circle cx="443" cy="505" r="3"/><circle cx="491" cy="467" r="3"/><circle cx="537" cy="410" r="3"/><circle cx="598" cy="367" r="3"/><circle cx="674" cy="326" r="3"/>
+    <animate attributeName="opacity" begin="trigger.click+1.05s" dur=".38s" values="0;1" fill="freeze"/>
   </g>
-  <!-- the final beat: moonlight finds an unoccupied tea setting -->
-  <path id="moonBeam" d="M548 654L687 654L749 1135H393Z" fill="url(#beam)" opacity="0"><animate attributeName="opacity" begin="signal.click+2.35s" dur="1.1s" from="0" to="1" fill="freeze"/></path>
-  <g id="teaStillLife" opacity="0"><ellipse cx="510" cy="1040" rx="95" ry="19" fill="#d2a45a" opacity=".56"/><ellipse cx="510" cy="1034" rx="56" ry="13" fill="#28150d"/><path d="M482 1034c6-50 50-50 56 0Z" fill="#c8a06c"/><ellipse cx="510" cy="1002" rx="20" ry="6" fill="#24140d"/><path d="M535 1006c25-18 36 11 15 24" fill="none" stroke="#c8a06c" stroke-width="6"/><path d="M403 1063L610 1083" stroke="#e8c57e" stroke-width="1" opacity=".8"/>
-    <animate attributeName="opacity" begin="signal.click+2.65s" dur=".7s" from="0" to="1" fill="freeze"/>
+
+  <!-- red signal line -->
+  <use href="#redPath" fill="none" stroke="#5f2925" stroke-width="4.4" opacity=".82"/>
+  <use href="#redPath" fill="none" stroke="#a33c2c" stroke-width="2.1" stroke-linecap="round" stroke-dasharray="760" stroke-dashoffset="760">
+    <animate attributeName="stroke-dashoffset" begin="trigger.click" dur="1.12s" values="760;0" fill="freeze"/>
+  </use>
+  <g id="trigger" style="cursor:pointer" aria-label="轻触金色微光">
+    <circle cx="388" cy="550" r="40" fill="#d8a35a" opacity=".12" filter="url(#soft)"><animate attributeName="opacity" values=".10;.34;.10" dur="2.2s" repeatCount="indefinite"/></circle>
+    <circle cx="388" cy="550" r="15" fill="url(#orb)" filter="url(#shadow)"/>
+    <circle cx="383" cy="545" r="3.5" fill="#fff4cc" opacity=".9"/>
   </g>
-  <text x="60" y="1134" font-family="Songti SC,STSong,serif" font-size="25" fill="#ead8b7">轻触纸上的微光，让信号与月色相见。</text>
-  <text x="61" y="1175" font-family="Arial,Microsoft YaHei,sans-serif" font-size="11" letter-spacing="2.4" fill="#ab8f65">TAP THE GOLDEN POINT · INTERACTIVE SVG</text>
+
+  <!-- arrival: light and an unoccupied tea setting -->
+  <path d="M480 475 L671 405 L720 1058 L325 1058 Z" fill="url(#beam)" opacity="0"><animate attributeName="opacity" begin="trigger.click+2.05s" dur=".8s" values="0;1" fill="freeze"/></path>
+  <g id="stillLife" opacity="0" filter="url(#shadow)">
+    <path d="M76 1026H372L344 1092H100Z" fill="#16110e" stroke="#8c765b" stroke-width="1"/>
+    <path d="M110 1038H328L308 1074H130Z" fill="#d8c5a2" opacity=".76" filter="url(#paperTexture)"/>
+    <ellipse cx="221" cy="1046" rx="50" ry="14" fill="#0c0b0b"/><path d="M181 1046c5-42 75-42 80 0Z" fill="#292422"/><ellipse cx="221" cy="1026" rx="29" ry="8" fill="#0d0c0c"/><path d="M257 1029c29-17 37 17 14 30" fill="none" stroke="#292422" stroke-width="6"/>
+    <animate attributeName="opacity" begin="trigger.click+2.35s" dur=".65s" values="0;1" fill="freeze"/>
+  </g>
+  <text x="58" y="1140" fill="#ebddc4" font-family="Songti SC,STSong,serif" font-size="23">轻触金色节点，让信号与月色相见。</text>
+  <text x="60" y="1171" fill="#a99169" font-family="Arial,Microsoft YaHei,sans-serif" font-size="10.5" letter-spacing="2.25">TAP THE GOLDEN NODE · FOLLOW THE LINE</text>
 </svg>
