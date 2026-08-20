@@ -30,6 +30,14 @@
         <filter id="goldGlow" x="-160%" y="-160%" width="420%" height="420%"><feGaussianBlur stdDeviation="7" result="soft"/><feMerge><feMergeNode in="soft"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
         <filter id="typeMist" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur stdDeviation=".52"/></filter>
         <filter id="waterSoft" x="-40%" y="-120%" width="180%" height="340%"><feGaussianBlur stdDeviation=".36"/></filter>
+        <filter id="waterMotion" x="-18%" y="-35%" width="136%" height="170%">
+          <feTurbulence type="fractalNoise" baseFrequency=".004 .012" numOctaves="1" seed="8" result="waterNoise">
+            <animate attributeName="baseFrequency" dur="4.8s" values=".003 .009;.012 .032;.005 .014;.003 .009" keyTimes="0;.34;.7;1" repeatCount="indefinite"/>
+          </feTurbulence>
+          <feDisplacementMap in="SourceGraphic" in2="waterNoise" scale="0" xChannelSelector="R" yChannelSelector="G">
+            <animate attributeName="scale" dur="4.8s" values="0;2.8;1.1;0" keyTimes="0;.34;.7;1" repeatCount="indefinite"/>
+          </feDisplacementMap>
+        </filter>
         <clipPath id="waterSurface"><ellipse cx="563" cy="1009" rx="207" ry="82"/></clipPath>
         <radialGradient id="ringHalo"><stop offset="0" stop-color="#fff3cb" stop-opacity=".62"/><stop offset=".38" stop-color="#e9bb69" stop-opacity=".15"/><stop offset="1" stop-color="#d8a14f" stop-opacity="0"/></radialGradient>
       </defs>
@@ -53,6 +61,12 @@
           <circle r="8.2" fill="none" stroke="#a76e2b" stroke-width="2.6"/>
           <animateTransform attributeName="transform" type="translate" values="0 0;0 -8;0 0" dur="3.2s" repeatCount="indefinite"/>
         </g>
+      </g>
+
+      <!-- 月影不是独立图形：同一月光画面仅在水面内做极轻的折射位移。 -->
+      <g id="waterReflection" clip-path="url(#waterSurface)" pointer-events="none" opacity="0">
+        <image href="hero-pull-moonlit.png" x="0" y="0" width="1024" height="1536" preserveAspectRatio="none" filter="url(#waterMotion)" opacity=".92"/>
+        <animate attributeName="opacity" begin="moonReveal.end+.08s" dur=".55s" values="0;.92" fill="freeze"/>
       </g>
 
       <!-- 涟漪被限制在碗内水面，并沿透视压扁成自然椭圆。 -->
@@ -98,6 +112,8 @@
       const svg = document.getElementById('interactive');
       const handle = document.getElementById('pullHandle');
       const reveal = document.getElementById('moonReveal');
+      // 折射层只能在金环之下，确保金环始终是清晰的叙事落点。
+      svg.appendChild(document.getElementById('ring'));
       let active = false, startX = 0, completed = false;
       const point = event => {
         const p = svg.createSVGPoint(); p.x = event.clientX; p.y = event.clientY;
