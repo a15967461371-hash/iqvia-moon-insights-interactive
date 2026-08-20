@@ -22,10 +22,11 @@
   <script>
     const scene = document.getElementById('scene');
     scene.addEventListener('load', () => {
-      const ring = scene.contentDocument?.getElementById('goldRing');
+      const ring = scene.contentDocument?.getElementById('goldRing') || scene.contentDocument?.getElementById('goldRing2');
       if (!ring) return;
       ring.addEventListener('click', () => {
-        window.setTimeout(() => { scene.data = 'moon-insights-next.svg'; }, 1280);
+        const next = ring.id === 'goldRing' ? 'moon-insights-next.svg' : 'moon-insights-final.svg';
+        window.setTimeout(() => { scene.data = next; }, 1200);
       }, { once: true });
     });
   </script>
