@@ -29,6 +29,8 @@
         <clipPath id="moonClip"><circle id="moonMask" cx="828" cy="-24" r="0"><animate id="moonReveal" attributeName="r" begin="indefinite" dur="1.5s" values="0;85;390" keyTimes="0;.18;1" fill="freeze"/></circle></clipPath>
         <filter id="goldGlow" x="-160%" y="-160%" width="420%" height="420%"><feGaussianBlur stdDeviation="7" result="soft"/><feMerge><feMergeNode in="soft"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
         <filter id="typeMist" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur stdDeviation=".52"/></filter>
+        <filter id="waterSoft" x="-40%" y="-120%" width="180%" height="340%"><feGaussianBlur stdDeviation=".36"/></filter>
+        <clipPath id="waterSurface"><ellipse cx="563" cy="1009" rx="207" ry="82"/></clipPath>
         <radialGradient id="ringHalo"><stop offset="0" stop-color="#fff3cb" stop-opacity=".62"/><stop offset=".38" stop-color="#e9bb69" stop-opacity=".15"/><stop offset="1" stop-color="#d8a14f" stop-opacity="0"/></radialGradient>
       </defs>
 
@@ -51,6 +53,21 @@
           <circle r="8.2" fill="none" stroke="#a76e2b" stroke-width="2.6"/>
           <animateTransform attributeName="transform" type="translate" values="0 0;0 -8;0 0" dur="3.2s" repeatCount="indefinite"/>
         </g>
+      </g>
+
+      <!-- 涟漪被限制在碗内水面，并沿透视压扁成自然椭圆。 -->
+      <g id="ripples" clip-path="url(#waterSurface)" pointer-events="none" opacity="0" filter="url(#waterSoft)">
+        <ellipse cx="563" cy="1004" rx="12" ry="3.5" fill="none" stroke="#f0d69d" stroke-width="1.15" opacity="0">
+          <animate attributeName="rx" begin="moonReveal.end+.18s" dur="3.4s" values="10;33;96" keyTimes="0;.26;1" repeatCount="indefinite"/>
+          <animate attributeName="ry" begin="moonReveal.end+.18s" dur="3.4s" values="3;8;24" keyTimes="0;.26;1" repeatCount="indefinite"/>
+          <animate attributeName="opacity" begin="moonReveal.end+.18s" dur="3.4s" values="0;.34;0" keyTimes="0;.18;1" repeatCount="indefinite"/>
+        </ellipse>
+        <ellipse cx="563" cy="1004" rx="15" ry="4" fill="none" stroke="#d9a857" stroke-width=".85" opacity="0">
+          <animate attributeName="rx" begin="moonReveal.end+1.25s" dur="3.4s" values="11;40;118" keyTimes="0;.28;1" repeatCount="indefinite"/>
+          <animate attributeName="ry" begin="moonReveal.end+1.25s" dur="3.4s" values="3;10;29" keyTimes="0;.28;1" repeatCount="indefinite"/>
+          <animate attributeName="opacity" begin="moonReveal.end+1.25s" dur="3.4s" values="0;.25;0" keyTimes="0;.16;1" repeatCount="indefinite"/>
+        </ellipse>
+        <animate attributeName="opacity" begin="moonReveal.end+.05s" dur=".55s" values="0;1" fill="freeze"/>
       </g>
 
       <!-- 透明命中区与小金扣形成“轻牵”而非按钮式点击。 -->
