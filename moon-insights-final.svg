@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1536" role="img" aria-label="月见洞察：月光抵达无人茶席">
+  <image href="hero-final.png" x="0" y="0" width="1024" height="1536" preserveAspectRatio="none"/>
+  <rect width="1024" height="1536" fill="#07111c" opacity=".28"><animate attributeName="opacity" dur=".8s" values=".28;0" fill="freeze"/></rect>
+</svg>
