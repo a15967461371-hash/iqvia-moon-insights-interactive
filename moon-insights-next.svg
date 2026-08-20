@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1536" role="img" aria-label="月见洞察：信号汇成完整月面">
+  <image href="hero-next.png" x="0" y="0" width="1024" height="1536" preserveAspectRatio="none"/>
+  <rect width="1024" height="1536" fill="#07111c" opacity=".36">
+    <animate attributeName="opacity" dur=".7s" values=".36;0" fill="freeze"/>
+  </rect>
+</svg>
