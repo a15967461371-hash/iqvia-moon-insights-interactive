@@ -6,32 +6,42 @@
   <title>月见洞察｜Signals Under One Moon</title>
   <meta name="description" content="IQVIA Mid-Autumn interactive SVG: Signals Under One Moon.">
   <style>
-    :root { color-scheme: dark; background: #17100c; }
+    :root { color-scheme: dark; background: #080b11; }
     * { box-sizing: border-box; }
-    body { margin: 0; min-height: 100dvh; display: grid; place-items: center; background: radial-gradient(circle at 50% 14%, #4a2d16 0, #21150e 45%, #120b08 100%); }
+    body { margin: 0; min-height: 100dvh; display: grid; place-items: center; background: #080b11; }
     main { width: min(100vw, 750px); display: grid; place-items: center; overflow: hidden; }
     object { display: block; width: 100%; aspect-ratio: 2 / 3; height: auto; border: 0; }
-    .assist { position: fixed; right: 18px; bottom: 18px; margin: 0; padding: 8px 10px; border: 1px solid #b88343; border-radius: 999px; color: #e9cca0; background: rgb(20 12 7 / 72%); font: 11px/1.2 Arial, "Microsoft YaHei", sans-serif; letter-spacing: .08em; pointer-events: none; }
+    .assist { position: fixed; left: 22px; bottom: 19px; margin: 0; color: #e7cca0; font: 12px/1.45 Arial, "Microsoft YaHei", sans-serif; letter-spacing: .075em; pointer-events: none; text-shadow: 0 1px 12px #000; transition: opacity .4s ease; }
+    .assist::before { content: ""; display: inline-block; width: 22px; height: 1px; margin: 0 9px 4px 0; background: #ba8745; vertical-align: middle; }
   </style>
 </head>
 <body>
   <main aria-label="IQVIA 月见洞察 SVG 互动页">
-    <object id="scene" data="moon-insights.svg" type="image/svg+xml" aria-label="轻触金色微光，观看信号相连、月面汇成与月光抵达"></object>
+    <object id="scene" data="moon-insights.svg" type="image/svg+xml" aria-label="轻触红线金环，观看信号相连、月面汇成与月光抵达"></object>
   </main>
-  <p class="assist">一束尚未被理解的信号 · 轻触金环</p>
+  <p class="assist">点亮信号 · 轻触红线上的金环</p>
   <script>
     const scene = document.getElementById('scene');
     const hint = document.querySelector('.assist');
+    function showHint(message) { hint.textContent = message; hint.style.opacity = '1'; }
     scene.addEventListener('load', () => {
-      const ring = scene.contentDocument?.getElementById('goldRing') || scene.contentDocument?.getElementById('goldRing2');
-      if (!ring) { hint.style.opacity = '0'; return; }
-      hint.style.opacity = '1';
-      hint.textContent = ring.id === 'goldRing' ? '一束尚未被理解的信号 · 轻触金环' : '联系浮现 · 再次轻触金环';
-      ring.addEventListener('click', () => {
-        const next = ring.id === 'goldRing' ? 'moon-insights-next.svg' : 'moon-insights-final.svg';
-        hint.textContent = next === 'moon-insights-next.svg' ? '信号正在找到联系' : '洞察正向生活抵达';
-        window.setTimeout(() => { scene.data = next; }, 1200);
-      }, { once: true });
+      const doc = scene.contentDocument;
+      const ring = doc?.getElementById('goldRing') || doc?.getElementById('goldRing2');
+      const bowl = doc?.getElementById('bowlWord');
+      if (ring) {
+        const first = ring.id === 'goldRing';
+        showHint(first ? '点亮信号 · 轻触红线上的金环' : '找到联系 · 轻触金环，让关系汇成洞察');
+        ring.addEventListener('click', () => {
+          const next = first ? 'moon-insights-next.svg' : 'moon-insights-final.svg';
+          showHint(first ? '红线正在显出它的联系' : '关系正在汇成完整月面');
+          window.setTimeout(() => { scene.data = next; }, 1200);
+        }, { once: true });
+      } else if (bowl) {
+        window.setTimeout(() => showHint('月见于碗 · 轻触放大这一刻'), 4300);
+        bowl.addEventListener('click', () => { hint.style.opacity = '0'; }, { once: true });
+      } else {
+        hint.style.opacity = '0';
+      }
     });
   </script>
 </body>
