@@ -17,6 +17,7 @@
       <circle r="16" fill="none" stroke="#f4cc78" stroke-width="1.1" stroke-dasharray="18 74" stroke-linecap="round"/>
       <animateTransform attributeName="transform" type="rotate" from="0 396 718" to="360 396 718" dur="3.6s" repeatCount="indefinite"/>
     </g>
+    <animateMotion begin="goldRing.click" dur="1.18s" path="M0 0 C-48 82,114 102,123 176 C137 232,22 244,30 326" fill="freeze"/>
   </g>
   <g id="returnRing" opacity="0" pointer-events="none">
     <circle cx="396" cy="718" r="24" fill="none" stroke="#f6d993" stroke-width="1.2" opacity=".7">
