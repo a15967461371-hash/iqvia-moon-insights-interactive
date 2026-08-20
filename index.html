@@ -16,8 +16,18 @@
 </head>
 <body>
   <main aria-label="IQVIA 月见洞察 SVG 互动页">
-    <object data="moon-insights.svg" type="image/svg+xml" aria-label="轻触金色微光，观看信号相连、月面汇成与月光抵达"></object>
+    <object id="scene" data="moon-insights.svg" type="image/svg+xml" aria-label="轻触金色微光，观看信号相连、月面汇成与月光抵达"></object>
   </main>
   <p class="assist">轻触金色微光</p>
+  <script>
+    const scene = document.getElementById('scene');
+    scene.addEventListener('load', () => {
+      const ring = scene.contentDocument?.getElementById('goldRing');
+      if (!ring) return;
+      ring.addEventListener('click', () => {
+        window.setTimeout(() => { scene.data = 'moon-insights-next.svg'; }, 1280);
+      }, { once: true });
+    });
+  </script>
 </body>
 </html>
