@@ -95,15 +95,12 @@
       const story = document.getElementById('story');
       const scenes = [document.getElementById('frame1'), document.getElementById('frame2'), document.getElementById('frame3')];
       const reveal = document.getElementById('moonReveal');
-      let stage = 0, active = false, startX = 0, finalRevealed = false, suppressClick = false;
-      const point = event => { const p = story.createSVGPoint(); p.x = event.clientX; p.y = event.clientY; return p.matrixTransform(story.getScreenCTM().inverse()); };
+      let stage = 0, finalRevealed = false, transitionLocked = false;
       const setStage = next => { scenes[stage].classList.remove('active'); stage = next; scenes[stage].classList.add('active'); story.setAttribute('aria-label', next === 1 ? '金环正在引月入碗' : next === 2 ? '轻牵红绳，让月亮出现' : '轻牵红绳，继续故事'); };
-      const advance = () => { if (stage < 2) { const next = stage + 1; window.setTimeout(() => setStage(next), 620); return; } if (!finalRevealed) { finalRevealed = true; scenes[2].classList.add('revealed'); reveal.beginElement(); story.setAttribute('aria-label','月亮已经显现，中秋快乐'); } };
-      const hit = event => event.target.closest?.('.hit');
-      story.addEventListener('pointerdown', event => { if (!hit(event)) return; active = true; startX = point(event).x; story.setPointerCapture?.(event.pointerId); });
-      story.addEventListener('pointermove', event => { if (active && point(event).x - startX > 26) { active = false; suppressClick = true; advance(); } });
-      story.addEventListener('pointerup', () => { if (active) { suppressClick = true; advance(); } active = false; });
-      story.addEventListener('click', event => { if (suppressClick) { suppressClick = false; return; } if (hit(event)) advance(); });
+      const advance = () => { if (transitionLocked) return; transitionLocked = true; if (stage < 2) { const next = stage + 1; window.setTimeout(() => { setStage(next); transitionLocked = false; }, 620); return; } if (!finalRevealed) { finalRevealed = true; scenes[2].classList.add('revealed'); reveal.beginElement(); story.setAttribute('aria-label','月亮已经显现，中秋快乐'); } window.setTimeout(() => { transitionLocked = false; }, 760); };
+      [document.getElementById('pull1'), document.getElementById('pull2'), document.getElementById('pull3')].forEach((control, index) => {
+        control.addEventListener('click', event => { event.preventDefault(); event.stopPropagation(); if (stage === index) advance(); });
+      });
       story.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); advance(); } });
     })();
   </script>
