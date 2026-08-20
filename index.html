@@ -21,11 +21,14 @@
   <p class="assist">轻触金色微光</p>
   <script>
     const scene = document.getElementById('scene');
+    const hint = document.querySelector('.assist');
     scene.addEventListener('load', () => {
       const ring = scene.contentDocument?.getElementById('goldRing') || scene.contentDocument?.getElementById('goldRing2');
       if (!ring) return;
       ring.addEventListener('click', () => {
         const next = ring.id === 'goldRing' ? 'moon-insights-next.svg' : 'moon-insights-final.svg';
+        hint.textContent = next === 'moon-insights-next.svg' ? '轻触下一枚金色节点' : '月光抵达';
+        if (next === 'moon-insights-final.svg') hint.style.opacity = '0';
         window.setTimeout(() => { scene.data = next; }, 1200);
       }, { once: true });
     });
