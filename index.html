@@ -18,17 +18,18 @@
   <main aria-label="IQVIA 月见洞察 SVG 互动页">
     <object id="scene" data="moon-insights.svg" type="image/svg+xml" aria-label="轻触金色微光，观看信号相连、月面汇成与月光抵达"></object>
   </main>
-  <p class="assist">轻触金色微光</p>
+  <p class="assist">一束尚未被理解的信号 · 轻触金环</p>
   <script>
     const scene = document.getElementById('scene');
     const hint = document.querySelector('.assist');
     scene.addEventListener('load', () => {
       const ring = scene.contentDocument?.getElementById('goldRing') || scene.contentDocument?.getElementById('goldRing2');
-      if (!ring) return;
+      if (!ring) { hint.style.opacity = '0'; return; }
+      hint.style.opacity = '1';
+      hint.textContent = ring.id === 'goldRing' ? '一束尚未被理解的信号 · 轻触金环' : '联系浮现 · 再次轻触金环';
       ring.addEventListener('click', () => {
         const next = ring.id === 'goldRing' ? 'moon-insights-next.svg' : 'moon-insights-final.svg';
-        hint.textContent = next === 'moon-insights-next.svg' ? '轻触下一枚金色节点' : '月光抵达';
-        if (next === 'moon-insights-final.svg') hint.style.opacity = '0';
+        hint.textContent = next === 'moon-insights-next.svg' ? '信号正在找到联系' : '洞察正向生活抵达';
         window.setTimeout(() => { scene.data = next; }, 1200);
       }, { once: true });
     });
