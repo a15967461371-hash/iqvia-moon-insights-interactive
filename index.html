@@ -4,45 +4,103 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>月见洞察｜Signals Under One Moon</title>
-  <meta name="description" content="IQVIA Mid-Autumn interactive SVG: Signals Under One Moon.">
+  <meta name="description" content="IQVIA Mid-Autumn interactive SVG: gently pull the red thread and the moon appears.">
   <style>
-    :root { color-scheme: dark; background: #080b11; }
+    :root { color-scheme: dark; background: #05070a; }
     * { box-sizing: border-box; }
-    body { margin: 0; min-height: 100dvh; display: grid; place-items: center; background: #080b11; }
-    main { width: min(100vw, 750px); display: grid; place-items: center; overflow: hidden; }
-    object { display: block; width: 100%; aspect-ratio: 2 / 3; height: auto; border: 0; }
-    .assist { position: fixed; left: 22px; bottom: 19px; margin: 0; color: #e7cca0; font: 12px/1.45 Arial, "Microsoft YaHei", sans-serif; letter-spacing: .075em; pointer-events: none; text-shadow: 0 1px 12px #000; transition: opacity .4s ease; }
-    .assist::before { content: ""; display: inline-block; width: 22px; height: 1px; margin: 0 9px 4px 0; background: #ba8745; vertical-align: middle; }
+    body { min-height: 100dvh; margin: 0; display: grid; place-items: center; background: #05070a; overflow: hidden; }
+    main { width: min(100vw, 750px); min-height: 100dvh; display: grid; place-items: center; }
+    #interactive { display: block; width: 100%; max-height: 100dvh; height: auto; touch-action: none; user-select: none; }
+    .moonlit { opacity: 0; transition: opacity 1.65s cubic-bezier(.18,.82,.23,1); }
+    #festival { opacity: 0; transition: opacity 1.35s ease 1.45s; }
+    #subcopy { opacity: 1; transition: opacity .45s ease; }
+    #interactive.is-revealed .moonlit { opacity: 1; }
+    #interactive.is-revealed #festival { opacity: 1; }
+    #interactive.is-revealed #subcopy { opacity: 0; }
+    #pullHandle { cursor: grab; }
+    #pullHandle:active { cursor: grabbing; }
+    .a11y { position: fixed; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   </style>
 </head>
 <body>
-  <main aria-label="IQVIA 月见洞察 SVG 互动页">
-    <object id="scene" data="moon-insights.svg" type="image/svg+xml" aria-label="轻触红线金环，观看信号相连、月面汇成与月光抵达"></object>
+  <main>
+    <svg id="interactive" viewBox="0 0 1024 1536" role="button" tabindex="0" aria-label="轻牵红线，月亮显现">
+      <defs>
+        <clipPath id="moonClip"><circle id="moonMask" cx="828" cy="-24" r="0"><animate id="moonReveal" attributeName="r" begin="indefinite" dur="1.5s" values="0;85;390" keyTimes="0;.18;1" fill="freeze"/></circle></clipPath>
+        <filter id="goldGlow" x="-160%" y="-160%" width="420%" height="420%"><feGaussianBlur stdDeviation="7" result="soft"/><feMerge><feMergeNode in="soft"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="typeMist" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur stdDeviation=".52"/></filter>
+        <radialGradient id="ringHalo"><stop offset="0" stop-color="#fff3cb" stop-opacity=".62"/><stop offset=".38" stop-color="#e9bb69" stop-opacity=".15"/><stop offset="1" stop-color="#d8a14f" stop-opacity="0"/></radialGradient>
+      </defs>
+
+      <image href="hero-pull-dark.png" x="0" y="0" width="1024" height="1536" preserveAspectRatio="none"/>
+      <image class="moonlit" href="hero-pull-moonlit.png" x="0" y="0" width="1024" height="1536" preserveAspectRatio="none" clip-path="url(#moonClip)"/>
+
+      <g fill="#e8d7b8" font-family="Arial, 'Microsoft YaHei', sans-serif" pointer-events="none">
+        <text x="76" y="105" font-size="15" letter-spacing="4.4" opacity=".8">IQVIA</text>
+        <text x="76" y="137" font-family="Songti SC, STSong, serif" font-size="27" letter-spacing="3">月见洞察</text>
+        <text x="77" y="163" font-size="10" letter-spacing="2.2" opacity=".6">SIGNALS UNDER ONE MOON</text>
+      </g>
+
+      <!-- 金环只在碗中呼吸，提示红绳的落点。 -->
+      <g id="ring" pointer-events="none" transform="translate(563 1002)">
+        <circle r="39" fill="url(#ringHalo)" opacity=".68" filter="url(#goldGlow)">
+          <animate attributeName="opacity" values=".26;.75;.26" dur="3.4s" repeatCount="indefinite"/>
+        </circle>
+        <g>
+          <circle r="13" fill="none" stroke="#f3d28e" stroke-width="2.2"/>
+          <circle r="8.2" fill="none" stroke="#a76e2b" stroke-width="2.6"/>
+          <animateTransform attributeName="transform" type="translate" values="0 0;0 -8;0 0" dur="3.2s" repeatCount="indefinite"/>
+        </g>
+      </g>
+
+      <!-- 透明命中区与小金扣形成“轻牵”而非按钮式点击。 -->
+      <g id="pullHandle" aria-label="轻牵红线" focusable="true">
+        <path d="M88 1362 C106 1434 188 1478 286 1516" fill="none" stroke="transparent" stroke-width="72" stroke-linecap="round"/>
+        <circle cx="90" cy="1361" r="31" fill="#b42024" opacity=".02"/>
+        <circle cx="90" cy="1361" r="10" fill="#c78a3c" opacity=".92" filter="url(#goldGlow)">
+          <animate attributeName="r" values="7;11;7" dur="2.2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="90" cy="1361" r="5.6" fill="#fff0c8"/>
+      </g>
+
+      <g id="subcopy" fill="#e8d7b8" pointer-events="none">
+        <text x="76" y="1283" font-family="Songti SC, STSong, serif" font-size="23" letter-spacing="2">轻牵红线</text>
+        <text x="76" y="1314" font-family="Arial, 'Microsoft YaHei', sans-serif" font-size="11" letter-spacing="2.1" opacity=".66">THE MOON IS WAITING TO APPEAR</text>
+        <path d="M76 1336 H189" stroke="#bd873e" stroke-width="1" opacity=".7"/>
+      </g>
+
+      <g id="festival" pointer-events="none" fill="#f1dfbc">
+        <text x="512" y="520" text-anchor="middle" font-family="STKaiti, Kaiti SC, Songti SC, serif" font-size="64" letter-spacing="13" filter="url(#typeMist)">中秋快乐</text>
+        <text x="512" y="565" text-anchor="middle" font-family="Arial, 'Microsoft YaHei', sans-serif" font-size="11" letter-spacing="4.2" opacity=".62">UNDER ONE MOON, WE SEE FURTHER</text>
+      </g>
+    </svg>
+    <span class="a11y">轻牵红线，月亮显现。</span>
   </main>
-  <p class="assist">点亮信号 · 轻触红线上的金环</p>
   <script>
-    const scene = document.getElementById('scene');
-    const hint = document.querySelector('.assist');
-    function showHint(message) { hint.textContent = message; hint.style.opacity = '1'; }
-    scene.addEventListener('load', () => {
-      const doc = scene.contentDocument;
-      const ring = doc?.getElementById('goldRing') || doc?.getElementById('goldRing2');
-      const bowl = doc?.getElementById('bowlWord');
-      if (ring) {
-        const first = ring.id === 'goldRing';
-        showHint(first ? '点亮信号 · 轻触红线上的金环' : '找到联系 · 轻触金环，让关系汇成洞察');
-        ring.addEventListener('click', () => {
-          const next = first ? 'moon-insights-next.svg' : 'moon-insights-final.svg';
-          showHint(first ? '红线正在显出它的联系' : '关系正在汇成完整月面');
-          window.setTimeout(() => { scene.data = next; }, 1200);
-        }, { once: true });
-      } else if (bowl) {
-        window.setTimeout(() => showHint('月见于碗 · 轻触放大这一刻'), 4300);
-        bowl.addEventListener('click', () => { hint.style.opacity = '0'; }, { once: true });
-      } else {
-        hint.style.opacity = '0';
-      }
-    });
+    (() => {
+      const svg = document.getElementById('interactive');
+      const handle = document.getElementById('pullHandle');
+      const reveal = document.getElementById('moonReveal');
+      let active = false, startX = 0, completed = false;
+      const point = event => {
+        const p = svg.createSVGPoint(); p.x = event.clientX; p.y = event.clientY;
+        return p.matrixTransform(svg.getScreenCTM().inverse());
+      };
+      const complete = () => {
+        if (completed) return;
+        completed = true; active = false;
+        svg.classList.add('is-revealed');
+        reveal.beginElement();
+        svg.setAttribute('aria-label', '月亮已经显现，中秋快乐');
+      };
+      const begin = event => { if (completed) return; active = true; startX = point(event).x; handle.setPointerCapture?.(event.pointerId); };
+      const move = event => { if (active && point(event).x - startX > 34) complete(); };
+      handle.addEventListener('pointerdown', begin);
+      window.addEventListener('pointermove', move, { passive: true });
+      window.addEventListener('pointerup', () => { if (active && !completed) complete(); active = false; });
+      handle.addEventListener('click', complete);
+      svg.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); complete(); } });
+    })();
   </script>
 </body>
 </html>
