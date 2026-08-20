@@ -1,4 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1536" role="img" aria-label="月见洞察：月光抵达无人茶席">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1536" role="img" aria-label="月见洞察：月光抵达">
+  <defs>
+    <linearGradient id="moonbeam" x1=".72" y1="0" x2=".28" y2="1">
+      <stop offset="0" stop-color="#fff1c5" stop-opacity=".32"/>
+      <stop offset=".56" stop-color="#e5bc70" stop-opacity=".14"/>
+      <stop offset="1" stop-color="#d9a95d" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="beamSoft" x="-30%" y="-20%" width="160%" height="140%"><feGaussianBlur stdDeviation="7"/></filter>
+  </defs>
   <image href="hero-final.png" x="0" y="0" width="1024" height="1536" preserveAspectRatio="none"/>
-  <rect width="1024" height="1536" fill="#07111c" opacity=".28" pointer-events="none"><animate attributeName="opacity" dur=".8s" values=".28;0" fill="freeze"/></rect>
+  <path d="M635 765 L790 790 L478 1364 L104 1364 Z" fill="url(#moonbeam)" opacity="0" filter="url(#beamSoft)" pointer-events="none">
+    <animate attributeName="opacity" begin=".35s" dur="3.2s" values="0;.12;.62;1" fill="freeze"/>
+  </path>
+  <path d="M660 790 L746 798 L436 1347 L192 1347 Z" fill="#ffe3a4" opacity="0" pointer-events="none">
+    <animate attributeName="opacity" begin="1.1s" dur="2.55s" values="0;.05;.15" fill="freeze"/>
+  </path>
+  <text x="512" y="1441" text-anchor="middle" fill="#f1dfbc" font-family="Songti SC,STSong,serif" font-size="38" letter-spacing="7" opacity="0">中秋快乐
+    <animate attributeName="opacity" begin="3.15s" dur="1.25s" values="0;1" fill="freeze"/>
+  </text>
 </svg>
