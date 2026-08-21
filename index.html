@@ -4,119 +4,151 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>月见洞察｜Signals Under One Moon</title>
-  <meta name="description" content="A quiet Mid-Autumn story, told by a red thread and a floating gold ring.">
+  <meta name="description" content="A Mid-Autumn interaction guided by one red thread and a gold ring.">
   <style>
     :root { color-scheme: dark; background:#05070a; }
     * { box-sizing:border-box; }
     body { margin:0; min-height:100dvh; display:grid; place-items:center; background:#05070a; overflow:hidden; }
     main { width:min(100vw,750px); min-height:100dvh; display:grid; place-items:center; }
-    #story { display:block; width:100%; max-height:100dvh; height:auto; touch-action:none; user-select:none; }
-    .scene { opacity:0; pointer-events:none; transition:opacity .85s cubic-bezier(.3,.8,.25,1); }
+    #story { display:block; width:100%; max-height:100dvh; height:auto; touch-action:none; user-select:none; outline:none; }
+    .scene { opacity:0; pointer-events:none; transition:opacity .75s cubic-bezier(.3,.8,.25,1); }
     .scene.active { opacity:1; pointer-events:auto; }
-    .hit { cursor:grab; }
-    .hit:active { cursor:grabbing; }
-    #moonlit, #waterReflection, #ripples, #festival { opacity:0; transition:opacity 1.35s ease; }
-    #frame3.revealed #moonlit { opacity:1; }
-    #frame3.revealed #waterReflection, #frame3.revealed #ripples { opacity:1; transition-delay:.45s; }
-    #frame3.revealed #festival { opacity:1; transition-delay:1.55s; }
+    .trigger { cursor:grab; }
+    .trigger:active { cursor:grabbing; }
+    .focus-halo { opacity:.28; transition:opacity .2s ease; }
+    #story:focus-visible .scene.active .focus-halo { opacity:.82; }
+    #waterFull, #moonFull, #festival, #ripples { opacity:0; transition:opacity .7s ease; }
+    #frame3.final-active #waterFull { opacity:1; }
+    #frame3.final-active #moonFull { opacity:1; transition-delay:.94s; transition-duration:1.25s; }
+    #frame3.final-active #festival { opacity:1; transition-delay:2.18s; transition-duration:1.1s; }
     .a11y { position:fixed; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+    @media (prefers-reduced-motion: reduce) {
+      .scene, #waterFull, #moonFull, #festival { transition-duration:.18s !important; transition-delay:0s !important; }
+      #story.reduced #ripples { opacity:.42; }
+    }
   </style>
 </head>
 <body>
   <main>
-    <svg id="story" viewBox="0 0 1024 1536" role="button" tabindex="0" aria-label="红绳与金环的中秋互动故事">
+    <svg id="story" viewBox="0 0 1024 1536" tabindex="0" role="application" aria-label="轻牵金环旁的红绳，完成月见故事">
       <defs>
-        <filter id="goldGlow" x="-160%" y="-160%" width="420%" height="420%"><feGaussianBlur stdDeviation="7" result="soft"/><feMerge><feMergeNode in="soft"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        <filter id="waterSoft" x="-40%" y="-120%" width="180%" height="340%"><feGaussianBlur stdDeviation=".36"/></filter>
-        <filter id="waterMotion" x="-18%" y="-35%" width="136%" height="170%">
-          <feTurbulence type="fractalNoise" baseFrequency=".004 .012" numOctaves="1" seed="8" result="waterNoise"><animate attributeName="baseFrequency" dur="4.8s" values=".003 .009;.012 .032;.005 .014;.003 .009" keyTimes="0;.34;.7;1" repeatCount="indefinite"/></feTurbulence>
-          <feDisplacementMap in="SourceGraphic" in2="waterNoise" scale="0" xChannelSelector="R" yChannelSelector="G"><animate attributeName="scale" dur="4.8s" values="0;2.8;1.1;0" keyTimes="0;.34;.7;1" repeatCount="indefinite"/></feDisplacementMap>
-        </filter>
+        <filter id="goldGlow" x="-160%" y="-160%" width="420%" height="420%"><feGaussianBlur stdDeviation="6" result="soft"/><feMerge><feMergeNode in="soft"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="waterSoft" x="-40%" y="-120%" width="180%" height="340%"><feGaussianBlur stdDeviation=".34"/></filter>
+        <filter id="waterMotion" x="-18%" y="-35%" width="136%" height="170%"><feTurbulence id="waterNoise" type="fractalNoise" baseFrequency=".004 .012" numOctaves="1" seed="8" result="noise"/><feDisplacementMap id="waterDisplace" in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G"/></filter>
         <filter id="typeMist" x="-30%" y="-80%" width="160%" height="260%"><feGaussianBlur stdDeviation=".52"/></filter>
-        <radialGradient id="ringHalo"><stop offset="0" stop-color="#fff3cb" stop-opacity=".66"/><stop offset=".38" stop-color="#e9bb69" stop-opacity=".15"/><stop offset="1" stop-color="#d8a14f" stop-opacity="0"/></radialGradient>
-        <clipPath id="moonClip"><circle id="moonMask" cx="828" cy="-24" r="0"><animate id="moonReveal" attributeName="r" begin="indefinite" dur="1.5s" values="0;85;390" keyTimes="0;.18;1" fill="freeze"/></circle></clipPath>
+        <radialGradient id="ringHalo"><stop offset="0" stop-color="#fff3cb" stop-opacity=".64"/><stop offset=".38" stop-color="#e9bb69" stop-opacity=".16"/><stop offset="1" stop-color="#d8a14f" stop-opacity="0"/></radialGradient>
         <clipPath id="waterSurface"><ellipse cx="563" cy="1009" rx="207" ry="82"/></clipPath>
       </defs>
 
-      <!-- 第一幕：纸月初见。红绳被轻牵，金环把视线引向下一幕。 -->
+      <!-- 01｜纸月在案，碗中无月。局部牵动金环，环沿绳来到碗沿。 -->
       <g id="frame1" class="scene active">
         <image href="hero-story-1.png" x="0" y="0" width="1024" height="1536" preserveAspectRatio="none"/>
-        <g pointer-events="none" transform="translate(281 1156)">
-          <circle r="37" fill="url(#ringHalo)" opacity=".48" filter="url(#goldGlow)"><animate attributeName="opacity" values=".18;.7;.18" dur="3.1s" repeatCount="indefinite"/></circle>
-          <circle r="16" fill="none" stroke="#f5d592" stroke-width="1.5" opacity=".78"/>
+        <path id="tension1" d="M72 1500 C112 1390 185 1216 281 1156" fill="none" stroke="#be2024" stroke-width="2.4" stroke-linecap="round" opacity="0"/>
+        <g id="ring1" pointer-events="none" transform="translate(281 1156)">
+          <circle class="focus-halo" r="43" fill="url(#ringHalo)" filter="url(#goldGlow)"/>
+          <circle r="16" fill="none" stroke="#f6d594" stroke-width="1.7"/>
+          <circle r="10" fill="none" stroke="#a96f31" stroke-width="2.5"/>
         </g>
-        <g id="traveller1" pointer-events="none" opacity="0">
-          <circle cx="281" cy="1156" r="25" fill="url(#ringHalo)" filter="url(#goldGlow)"/>
-          <circle cx="281" cy="1156" r="12" fill="none" stroke="#f7d58f" stroke-width="2.4"/>
-          <animateMotion id="travel1" begin="indefinite" dur="1.05s" path="M0 0 C8 -42,24 -96,31 -152" fill="freeze"/>
-        </g>
-        <g id="pull1" class="hit" aria-label="轻牵红绳，继续故事">
-          <path d="M0 1488 C126 1425 190 1245 281 1156" fill="none" stroke="#000" stroke-opacity=".001" stroke-width="76" stroke-linecap="round"/>
-          <circle cx="281" cy="1156" r="35" fill="#000" fill-opacity=".001"/>
-          <rect width="1024" height="1536" fill="#000" fill-opacity=".001"/>
+        <g id="trigger1" class="trigger" aria-label="轻牵第一处金环">
+          <circle cx="281" cy="1156" r="58" fill="#000" fill-opacity=".001"/>
+          <path d="M110 1378 C162 1270 220 1196 281 1156" fill="none" stroke="#000" stroke-opacity=".001" stroke-width="64" stroke-linecap="round"/>
         </g>
       </g>
 
-      <!-- 第二幕：金环引月。金环停在红绳中段，下一次轻牵把月影送向碗中。 -->
+      <!-- 02｜金环抵达碗沿，残月第一次映入水中。 -->
       <g id="frame2" class="scene">
         <image href="hero-story-2.png" x="0" y="0" width="1024" height="1536" preserveAspectRatio="none"/>
-        <g pointer-events="none" transform="translate(313 1003)">
-          <circle r="39" fill="url(#ringHalo)" opacity=".52" filter="url(#goldGlow)"><animate attributeName="opacity" values=".2;.76;.2" dur="3.2s" repeatCount="indefinite"/></circle>
-          <circle r="17" fill="none" stroke="#f5d592" stroke-width="1.5" opacity=".78"/>
+        <path id="tension2" d="M105 1475 C144 1282 225 1094 313 1003" fill="none" stroke="#be2024" stroke-width="2.4" stroke-linecap="round" opacity="0"/>
+        <g id="ring2" pointer-events="none" transform="translate(313 1003)">
+          <circle class="focus-halo" r="43" fill="url(#ringHalo)" filter="url(#goldGlow)"/>
+          <circle r="16" fill="none" stroke="#f6d594" stroke-width="1.7"/>
+          <circle r="10" fill="none" stroke="#a96f31" stroke-width="2.5"/>
         </g>
-        <g id="traveller2" pointer-events="none" opacity="0">
-          <circle cx="313" cy="1003" r="26" fill="url(#ringHalo)" filter="url(#goldGlow)"/>
-          <circle cx="313" cy="1003" r="12" fill="none" stroke="#f7d58f" stroke-width="2.4"/>
-          <animateMotion id="travel2" begin="indefinite" dur="1.1s" path="M0 0 C74 28,154 18,250 0" fill="freeze"/>
-        </g>
-        <g id="pull2" class="hit" aria-label="轻牵红绳，让月影入碗">
-          <path d="M90 1500 C95 1270 204 1100 313 1003" fill="none" stroke="#000" stroke-opacity=".001" stroke-width="76" stroke-linecap="round"/>
-          <circle cx="313" cy="1003" r="37" fill="#000" fill-opacity=".001"/>
-          <rect width="1024" height="1536" fill="#000" fill-opacity=".001"/>
+        <g id="trigger2" class="trigger" aria-label="轻牵第二处金环">
+          <circle cx="313" cy="1003" r="58" fill="#000" fill-opacity=".001"/>
+          <path d="M165 1268 C226 1136 271 1056 313 1003" fill="none" stroke="#000" stroke-opacity=".001" stroke-width="64" stroke-linecap="round"/>
         </g>
       </g>
 
-      <!-- 第三幕：月影入碗。保留底图，SVG 只负责显月、金环和水的呼吸。 -->
+      <!-- 03｜同一镜头的完成态：先水心、再月影、后月面与祝福。 -->
       <g id="frame3" class="scene">
-        <image href="hero-pull-dark.png" x="0" y="0" width="1024" height="1536" preserveAspectRatio="none"/>
-        <image id="moonlit" href="hero-pull-moonlit.png" x="0" y="0" width="1024" height="1536" preserveAspectRatio="none" clip-path="url(#moonClip)"/>
-        <g id="waterReflection" clip-path="url(#waterSurface)" pointer-events="none">
-          <image href="hero-pull-moonlit.png" x="0" y="0" width="1024" height="1536" preserveAspectRatio="none" filter="url(#waterMotion)" opacity=".92"/>
+        <image href="hero-story-2.png" x="0" y="0" width="1024" height="1536" preserveAspectRatio="none"/>
+        <image id="waterFull" href="hero-story-3.png" x="0" y="0" width="1024" height="1536" preserveAspectRatio="none" clip-path="url(#waterSurface)" filter="url(#waterMotion)"/>
+        <image id="moonFull" href="hero-story-3.png" x="0" y="0" width="1024" height="1536" preserveAspectRatio="none"/>
+        <g id="ring3" pointer-events="none" transform="translate(563 1002)" opacity="0">
+          <circle r="39" fill="url(#ringHalo)" filter="url(#goldGlow)"/>
+          <circle r="13" fill="none" stroke="#f3d28e" stroke-width="2.2"/>
+          <circle r="8.2" fill="none" stroke="#a76e2b" stroke-width="2.6"/>
         </g>
         <g id="ripples" clip-path="url(#waterSurface)" pointer-events="none" filter="url(#waterSoft)">
-          <ellipse cx="563" cy="1004" rx="12" ry="3.5" fill="none" stroke="#f0d69d" stroke-width="1.15" opacity="0"><animate attributeName="rx" begin="moonReveal.end+.18s" dur="3.4s" values="10;33;96" keyTimes="0;.26;1" repeatCount="indefinite"/><animate attributeName="ry" begin="moonReveal.end+.18s" dur="3.4s" values="3;8;24" keyTimes="0;.26;1" repeatCount="indefinite"/><animate attributeName="opacity" begin="moonReveal.end+.18s" dur="3.4s" values="0;.34;0" keyTimes="0;.18;1" repeatCount="indefinite"/></ellipse>
-          <ellipse cx="563" cy="1004" rx="15" ry="4" fill="none" stroke="#d9a857" stroke-width=".85" opacity="0"><animate attributeName="rx" begin="moonReveal.end+1.25s" dur="3.4s" values="11;40;118" keyTimes="0;.28;1" repeatCount="indefinite"/><animate attributeName="ry" begin="moonReveal.end+1.25s" dur="3.4s" values="3;10;29" keyTimes="0;.28;1" repeatCount="indefinite"/><animate attributeName="opacity" begin="moonReveal.end+1.25s" dur="3.4s" values="0;.25;0" keyTimes="0;.16;1" repeatCount="indefinite"/></ellipse>
+          <ellipse cx="563" cy="1004" rx="10" ry="3" fill="none" stroke="#f0d69d" stroke-width="1.1" opacity="0"><animate id="ripple1x" attributeName="rx" begin="indefinite" dur="1.8s" values="10;35;94" keyTimes="0;.3;1" repeatCount="3"/><animate id="ripple1y" attributeName="ry" begin="indefinite" dur="1.8s" values="3;8;23" keyTimes="0;.3;1" repeatCount="3"/><animate id="ripple1o" attributeName="opacity" begin="indefinite" dur="1.8s" values="0;.35;0" keyTimes="0;.18;1" repeatCount="3"/></ellipse>
+          <ellipse cx="563" cy="1004" rx="13" ry="4" fill="none" stroke="#d9a857" stroke-width=".82" opacity="0"><animate id="ripple2x" attributeName="rx" begin="indefinite" dur="1.8s" values="13;42;115" keyTimes="0;.3;1" repeatCount="3"/><animate id="ripple2y" attributeName="ry" begin="indefinite" dur="1.8s" values="4;10;28" keyTimes="0;.3;1" repeatCount="3"/><animate id="ripple2o" attributeName="opacity" begin="indefinite" dur="1.8s" values="0;.24;0" keyTimes="0;.18;1" repeatCount="3"/></ellipse>
+          <ellipse class="reduced-ripple" cx="563" cy="1004" rx="76" ry="19" fill="none" stroke="#e5be72" stroke-width=".85" opacity="0"/>
         </g>
-        <g id="ring3" pointer-events="none" transform="translate(563 1002)">
-          <circle r="39" fill="url(#ringHalo)" opacity=".68" filter="url(#goldGlow)"><animate attributeName="opacity" values=".26;.75;.26" dur="3.4s" repeatCount="indefinite"/></circle>
-          <g><circle r="13" fill="none" stroke="#f3d28e" stroke-width="2.2"/><circle r="8.2" fill="none" stroke="#a76e2b" stroke-width="2.6"/><animateTransform attributeName="transform" type="translate" values="0 0;0 -8;0 0" dur="3.2s" repeatCount="indefinite"/></g>
-        </g>
-        <g id="pull3" class="hit" aria-label="轻牵红绳，让月亮出现">
-          <path d="M88 1362 C106 1434 188 1478 286 1516" fill="none" stroke="#000" stroke-opacity=".001" stroke-width="72" stroke-linecap="round"/>
-          <circle cx="90" cy="1361" r="31" fill="#000" fill-opacity=".001"/>
-          <rect width="1024" height="1536" fill="#000" fill-opacity=".001"/>
-        </g>
-        <g id="festival" pointer-events="none" fill="#f1dfbc">
-          <text x="512" y="520" text-anchor="middle" font-family="STKaiti, Kaiti SC, Songti SC, serif" font-size="64" letter-spacing="13" filter="url(#typeMist)">中秋快乐</text>
-        </g>
+        <g id="festival" pointer-events="none" fill="#f1dfbc"><text x="512" y="520" text-anchor="middle" font-family="STKaiti, Kaiti SC, Songti SC, serif" font-size="64" letter-spacing="13" filter="url(#typeMist)">中秋快乐</text></g>
       </g>
     </svg>
-    <span class="a11y">轻牵红绳，跟随金环与月亮进入下一幕。</span>
+    <span class="a11y" aria-live="polite" id="status">纸月在案，轻牵金环旁的红绳。</span>
   </main>
   <script>
     (() => {
       const story = document.getElementById('story');
+      const status = document.getElementById('status');
       const scenes = [document.getElementById('frame1'), document.getElementById('frame2'), document.getElementById('frame3')];
-      const reveal = document.getElementById('moonReveal');
-      const travellers = [document.getElementById('traveller1'), document.getElementById('traveller2')];
-      const travelMotions = [document.getElementById('travel1'), document.getElementById('travel2')];
-      let stage = 0, finalRevealed = false, transitionLocked = false;
-      const setStage = next => { scenes[stage].classList.remove('active'); stage = next; scenes[stage].classList.add('active'); story.setAttribute('aria-label', next === 1 ? '金环正在引月入碗' : next === 2 ? '轻牵红绳，让月亮出现' : '轻牵红绳，继续故事'); };
-      const advance = () => { if (transitionLocked) return; transitionLocked = true; if (stage < 2) { const outgoing = stage, next = stage + 1; travellers[outgoing].setAttribute('opacity','1'); travelMotions[outgoing].beginElement(); window.setTimeout(() => { setStage(next); travellers[outgoing].setAttribute('opacity','0'); transitionLocked = false; }, 1040); return; } if (!finalRevealed) { finalRevealed = true; scenes[2].classList.add('revealed'); reveal.beginElement(); story.setAttribute('aria-label','月亮已经显现，中秋快乐'); } window.setTimeout(() => { transitionLocked = false; }, 760); };
-      [document.getElementById('pull1'), document.getElementById('pull2'), document.getElementById('pull3')].forEach((control, index) => {
-        control.addEventListener('click', event => { event.preventDefault(); event.stopPropagation(); if (stage === index) advance(); });
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduced) story.classList.add('reduced');
+      const actions = [
+        { ring:document.getElementById('ring1'), tension:document.getElementById('tension1'), trigger:document.getElementById('trigger1'), start:[281,1156], end:[313,1003] },
+        { ring:document.getElementById('ring2'), tension:document.getElementById('tension2'), trigger:document.getElementById('trigger2'), start:[313,1003], end:[563,1002] }
+      ];
+      let stage = 0, drag = null, locked = false;
+      const svgPoint = event => { const p = story.createSVGPoint(); p.x = event.clientX; p.y = event.clientY; return p.matrixTransform(story.getScreenCTM().inverse()); };
+      const clamp = value => Math.max(0, Math.min(1, value));
+      const place = (action, progress) => {
+        const [sx, sy] = action.start, [ex, ey] = action.end;
+        const x = sx + (ex - sx) * progress, y = sy + (ey - sy) * progress;
+        action.ring.setAttribute('transform', `translate(${x} ${y})`);
+        action.tension.setAttribute('opacity', progress > .02 ? '.86' : '0');
+        action.tension.setAttribute('d', `M72 1500 C118 1375 ${Math.round((sx+x)/2)} ${Math.round((sy+y)/2)} ${Math.round(x)} ${Math.round(y)}`);
+      };
+      const switchTo = next => { scenes[stage].classList.remove('active'); stage = next; scenes[stage].classList.add('active'); };
+      const runRipples = () => {
+        if (reduced) return;
+        ['ripple1x','ripple1y','ripple1o','ripple2x','ripple2y','ripple2o'].forEach(id => document.getElementById(id).beginElement());
+        const noise = document.getElementById('waterNoise'), displace = document.getElementById('waterDisplace');
+        let tick = 0; const timer = window.setInterval(() => { tick += 1; const amount = tick % 2 ? 2.1 : .65; displace.setAttribute('scale', amount); noise.setAttribute('baseFrequency', tick % 2 ? '.011 .027' : '.005 .014'); if (tick >= 6) { displace.setAttribute('scale','0'); window.clearInterval(timer); } }, 300);
+      };
+      const finish = index => {
+        if (locked || index !== stage) return;
+        locked = true; place(actions[index], 1);
+        if (index === 0) {
+          status.textContent = '金环抵达碗沿，残月映入水中。';
+          window.setTimeout(() => { switchTo(1); locked = false; }, reduced ? 180 : 760);
+          return;
+        }
+        status.textContent = '金环入水，月影正在成圆。';
+        window.setTimeout(() => {
+          switchTo(2);
+          document.getElementById('ring3').setAttribute('opacity','1');
+          document.getElementById('frame3').classList.add('final-active');
+          runRipples();
+          window.setTimeout(() => { status.textContent = '月影成圆。中秋快乐。'; locked = false; }, reduced ? 260 : 2600);
+        }, reduced ? 180 : 760);
+      };
+      actions.forEach((action, index) => {
+        action.trigger.addEventListener('pointerdown', event => { if (locked || stage !== index) return; drag = { index, pointerId:event.pointerId }; action.trigger.setPointerCapture?.(event.pointerId); });
+        action.trigger.addEventListener('pointermove', event => {
+          if (!drag || drag.index !== index || locked) return;
+          const p = svgPoint(event); const [sx,sy] = action.start, [ex,ey] = action.end;
+          const dx = ex-sx, dy = ey-sy; const progress = clamp(((p.x-sx)*dx + (p.y-sy)*dy) / (dx*dx + dy*dy));
+          place(action, progress);
+          if (progress > .86) { drag = null; finish(index); }
+        });
+        action.trigger.addEventListener('pointerup', () => { if (drag?.index === index && !locked) finish(index); drag = null; });
+        action.trigger.addEventListener('pointercancel', () => { if (drag?.index === index) { place(action,0); drag = null; } });
+        action.trigger.addEventListener('click', event => { event.preventDefault(); if (!locked && stage === index) finish(index); });
       });
-      story.addEventListener('keydown', event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); advance(); } });
+      story.addEventListener('keydown', event => { if ((event.key === 'Enter' || event.key === ' ') && stage < 2) { event.preventDefault(); finish(stage); } });
     })();
   </script>
 </body>
